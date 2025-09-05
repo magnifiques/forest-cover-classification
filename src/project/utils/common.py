@@ -3,14 +3,14 @@ import yaml
 from src.project import logger
 import json
 import joblib
-from ensure import ensure_annotation # type: ignore
+from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 from typing import Any
 from box.exceptions import BoxValueError
 
 
-@ensure_annotations # type: ignore
+@ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
     """reads yaml file and returns
 
@@ -30,9 +30,12 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
             logger.info(f"yaml file: {path_to_yaml} loaded successfully")
             return ConfigBox(content)
     except BoxValueError:
+        print(f'path to file: {path_to_yaml}')
         raise ValueError("yaml file is empty")
     except Exception as e:
         raise e
+        
+
 
 @ensure_annotations
 def create_directories(path_to_directories: list, verbose=True):
@@ -46,7 +49,7 @@ def create_directories(path_to_directories: list, verbose=True):
         os.makedirs(path, exist_ok=True)
         if verbose:
             logger.info(f"created directory at: {path}")
-            
+
 @ensure_annotations
 def save_json(path: Path, data: dict):
     """save json data
