@@ -38,11 +38,15 @@ class DataValidation:
             with open(self.config.STATUS_FILE, 'w') as f:
                 if validation_status:
                     f.write(f"Data Validation found no errors!\n")
+                    f.write(f"Validation Status: {validation_status}")
+                    
                 if errors:
                     f.write('Data Validation found errors! Check STATUS_FILE for details.\n')
                     f.write("Errors:\n")
                     for err in errors:
                         f.write(f"{err}\n")
+                    f.write(f"Validation Status: {validation_status}")
+                    
             
             return validation_status
 
