@@ -282,3 +282,48 @@ Traceback (most recent call last):
   File "D:\Courses\Udemy\Complete MLOps Bootcamp\Projects\7_End to End Projects\end-to-end-data-science-project\src\project\pipeline\data_transformation.py", line 27, in initiate_data_transformation
     raise Exception("Your dataset hasn't been successfully validated.")
 Exception: Your dataset hasn't been successfully validated.
+[2025-09-06 15:45:30,556: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2025-09-06 15:45:30,562: INFO: common: yaml file: params.yaml loaded successfully]
+[2025-09-06 15:45:30,586: INFO: common: yaml file: schema.yaml loaded successfully]
+[2025-09-06 15:45:30,615: INFO: common: created directory at: artifacts]
+[2025-09-06 15:45:30,618: INFO: common: created directory at: artifacts/model_train]
+[2025-09-06 15:53:35,690: INFO: main: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2025-09-06 15:53:35,713: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2025-09-06 15:53:35,727: INFO: common: yaml file: params.yaml loaded successfully]
+[2025-09-06 15:53:35,764: INFO: common: yaml file: schema.yaml loaded successfully]
+[2025-09-06 15:53:35,769: INFO: common: created directory at: artifacts]
+[2025-09-06 15:53:35,769: INFO: common: created directory at: artifacts/data_ingestion]
+[2025-09-06 15:53:36,501: INFO: main: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2025-09-06 15:53:36,506: INFO: main: >>>>>> stage Data Validation stage started <<<<<<]
+[2025-09-06 15:53:36,514: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2025-09-06 15:53:36,517: INFO: common: yaml file: params.yaml loaded successfully]
+[2025-09-06 15:53:36,533: INFO: common: yaml file: schema.yaml loaded successfully]
+[2025-09-06 15:53:36,535: INFO: common: created directory at: artifacts]
+[2025-09-06 15:53:36,535: INFO: common: created directory at: artifacts/data_validation]
+[2025-09-06 15:53:47,121: INFO: main: >>>>>> stage Data Validation stage completed <<<<<<
+
+x==========x]
+[2025-09-06 15:53:47,153: INFO: main: >>>>>> stage Data Transformation stage started <<<<<<]
+[2025-09-06 15:53:47,290: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2025-09-06 15:53:47,295: INFO: common: yaml file: params.yaml loaded successfully]
+[2025-09-06 15:53:47,312: INFO: common: yaml file: schema.yaml loaded successfully]
+[2025-09-06 15:53:47,352: INFO: common: created directory at: artifacts]
+[2025-09-06 15:53:47,358: INFO: common: created directory at: artifacts/data_transformation]
+[2025-09-06 15:54:04,919: INFO: data_transformation: Splitted data into training, validation, and test sets]
+[2025-09-06 15:54:04,923: INFO: data_transformation: (464809, 55)]
+[2025-09-06 15:54:04,925: INFO: data_transformation: (58101, 55)]
+[2025-09-06 15:54:04,928: INFO: data_transformation: (58102, 55)]
+[2025-09-06 15:54:04,994: INFO: main: >>>>>> stage Data Transformation stage completed <<<<<<
+
+x==========x]
+[2025-09-06 15:54:04,994: INFO: main: >>>>>> stage Model Training stage started <<<<<<]
+[2025-09-06 15:54:05,001: INFO: common: yaml file: config\config.yaml loaded successfully]
+[2025-09-06 15:54:05,004: INFO: common: yaml file: params.yaml loaded successfully]
+[2025-09-06 15:54:05,022: INFO: common: yaml file: schema.yaml loaded successfully]
+[2025-09-06 15:54:05,025: INFO: common: created directory at: artifacts]
+[2025-09-06 15:54:05,030: INFO: common: created directory at: artifacts/model_train]
+[2025-09-06 15:54:15,568: INFO: main: >>>>>> stage Model Training stage completed <<<<<<
+
+x==========x]

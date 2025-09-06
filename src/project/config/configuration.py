@@ -1,7 +1,7 @@
 from src.project.constants import *
 from src.project.utils.common import read_yaml, create_directories
 from src.project import logger
-from src.project.entity.config_entity import (DataIngestionConfig, DataValidationConfig, DataTransformationConfig)
+from src.project.entity.config_entity import (DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainConfig)
 
 class ConfigurationManager:
     def __init__(self, 
@@ -52,3 +52,23 @@ class ConfigurationManager:
             data_path=config.data_path)
         
         return data_transformation_config
+
+    def get_model_train_config(self)-> ModelTrainConfig:
+        config=self.config.model_train
+        params = self.params.ElasticNet
+        target = self.schema.TARGET_COLUMN
+        
+        create_directories([config.root_dir])
+
+        model_train_config = ModelTrainConfig(
+            root_dir=config.root_dir,
+            train_data_path = config.train_data_path,
+            validation_data_path=config.validation_data_path,
+            test_data_path = config.test_data_path,
+            model_name = config.model_name,
+            alpha = params.alpha,
+            l1_ratio = params.l1_ratio,
+            target_column = target.name
+            
+        )
+        return model_train_config
