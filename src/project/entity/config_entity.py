@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional, List, Any
 
 @dataclass
 class DataIngestionConfig:
@@ -27,6 +28,18 @@ class ModelTrainConfig:
     validation_data_path: Path
     test_data_path: Path
     model_name: str
-    alpha: float
-    l1_ratio: float
     target_column: str
+    model_type: str
+    
+    # Common hyperparameters
+    n_estimators: Optional[List[int]] = None
+    max_depth: Optional[List[int]] = None
+    
+    # RandomForest specific hyperparameters
+    min_samples_split: Optional[List[int]] = None
+    min_samples_leaf: Optional[List[int]] = None
+    
+    # XGBoost specific hyperparameters
+    learning_rate: Optional[List[float]] = None
+    subsample: Optional[List[float]] = None
+    colsample_bytree: Optional[List[float]] = None

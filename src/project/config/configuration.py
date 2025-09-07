@@ -53,12 +53,28 @@ class ConfigurationManager:
         
         return data_transformation_config
 
-    def get_model_train_config(self)-> ModelTrainConfig:
+    def get_model_train_config(self, model_type: str)-> ModelTrainConfig:
+        
         config=self.config.model_train
-        params = self.params.ElasticNet
         target = self.schema.TARGET_COLUMN
         
+        # pick correct params
+        if model_type == "RandomForest":
+            params = self.params.RandomForest
+        elif model_type == "XGBoost":
+            params = self.params.XGBoost
+        else:
+            raise ValueError(f"Unknown model_type: {config.model_type}")
+            
         create_directories([config.root_dir])
+        
+        # Convert params to kwargs, handling missing attributes
+        param_kwargs = {}
+        param_dict = dict(params) if hasattr(params, '__dict__') else params
+        
+        # Add parameters that exist
+        for key, value in param_dict.items():
+            param_kwargs[key] = value
 
         model_train_config = ModelTrainConfig(
             root_dir=config.root_dir,
@@ -66,9 +82,8 @@ class ConfigurationManager:
             validation_data_path=config.validation_data_path,
             test_data_path = config.test_data_path,
             model_name = config.model_name,
-            alpha = params.alpha,
-            l1_ratio = params.l1_ratio,
-            target_column = target.name
-            
+            target_column=target.name,
+            model_type=model_type,
+            **param_kwargs
         )
         return model_train_config

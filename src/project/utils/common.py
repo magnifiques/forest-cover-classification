@@ -8,7 +8,7 @@ from box import ConfigBox
 from pathlib import Path
 from typing import Any
 from box.exceptions import BoxValueError
-
+import yaml
 
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
@@ -103,3 +103,19 @@ def load_bin(path: Path) -> Any:
     data = joblib.load(path)
     logger.info(f"binary file loaded from: {path}")
     return data
+
+@ensure_annotations
+def save_best_params(model_type: str, best_params: dict, params_file: str = "params.yaml"):
+    # Load existing params.yaml
+    with open(params_file, "r") as f:
+        params = yaml.safe_load(f)
+
+    # Add/update best parameters
+    key_name = f"{model_type}Best"
+    params[key_name] = best_params
+
+    # Save back to params.yaml
+    with open(params_file, "w") as f:
+        yaml.dump(params, f, default_flow_style=False)
+
+    print(f"Saved {model_type} best parameters to {key_name} in {params_file}")
