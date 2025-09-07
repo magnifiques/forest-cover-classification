@@ -21,9 +21,7 @@ class ModelTrain:
         test_data = pd.read_csv(self.config.test_data_path)
 
         encoder = LabelEncoder()
-        
-        
-        
+               
         train_x = train_data.drop([self.config.target_column], axis=1)
         validation_x = validation_data.drop([self.config.target_column], axis=1)
         test_x = test_data.drop([self.config.target_column], axis=1)
@@ -55,54 +53,54 @@ class ModelTrain:
             raise ValueError(f"Unknown model type: {self.config.model_type}")
         
         # Random search for hyperparameter tuning
-        # random_search = RandomizedSearchCV(
-        #     estimator=model,
-        #     param_distributions=param_grid,
-        #     n_iter=10,
-        #     cv=2,
-        #     scoring="accuracy",
-        #     n_jobs=-1,
-        #     random_state=42,
-        #     verbose=2
-        # )
-        halving = HalvingRandomSearchCV(
-        estimator=model,
-        param_distributions=param_grid,
-        factor=3,  # reduction factor
-        random_state=42,
-        n_jobs=-1,
-        scoring="accuracy",
-        verbose=2)
+        random_search = RandomizedSearchCV(
+            estimator=model,
+            param_distributions=param_grid,
+            n_iter=10,
+            cv=2,
+            scoring="accuracy",
+            n_jobs=-1,
+            random_state=42,
+            verbose=2
+        )
+        # halving = HalvingRandomSearchCV(
+        # estimator=model,
+        # param_distributions=param_grid,
+        # factor=3,  # reduction factor
+        # random_state=42,
+        # n_jobs=-1,
+        # scoring="accuracy",
+        # verbose=2)
         
         
-        print(f"Training {self.config.model_type} with Halving Random Search CV...")
+        print(f"Training {self.config.model_type} with Random Search CV...")
         print(f"Parameter grid: {param_grid}")
-        halving.fit(train_x, train_y)
-        best_model = halving.best_estimator_
+        random_search.fit(train_x, train_y)
+        best_model = random_search.best_estimator_
         
 
         # Evaluate on validation set
         val_pred = best_model.predict(validation_x) # type: ignore
         val_acc = accuracy_score(validation_y, val_pred)
-        val_f1 = f1_score(validation_y, val_pred, average="weighted")
+        val_f1 = f1_score(validation_y, val_pred)
         
-        print(f"{self.config.model_type} Best Params: {halving.best_params_}")
+        print(f"{self.config.model_type} Best Params: {random_search.best_params_}")
         print(f"Validation Accuracy: {val_acc:.4f}")
         print(f"Validation F1-Score: {val_f1:.4f}")
         print("Classification Report:")
         print(classification_report(validation_y, val_pred))
 
         # Save the best model
-        model_filename = f"{self.config.model_type}_{self.config.model_name}"
+        model_filename = f"{self.config.model_type}.joblib"
         model_path = os.path.join(self.config.root_dir, model_filename)
         joblib.dump(best_model, model_path)
         print(f"Model saved to: {model_path}")
         
-        save_best_params(self.config.model_type, halving.best_params_)
+        save_best_params(self.config.model_type, random_search.best_params_)
         
         return {
             'model': best_model,
             'validation_accuracy': val_acc,
             'validation_f1': val_f1,
-            'best_params': halving.best_params_
+            'best_params': random_search.best_params_
         }

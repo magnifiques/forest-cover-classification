@@ -14,10 +14,10 @@ RandomForest:
   - 200
   - 300
 RandomForestBest:
-  max_depth: 20
-  min_samples_leaf: 1
-  min_samples_split: 2
-  n_estimators: 100
+  max_depth: 30
+  min_samples_leaf: 2
+  min_samples_split: 5
+  n_estimators: 300
 XGBoost:
   colsample_bytree:
   - 0.7
@@ -41,6 +41,6 @@ XGBoost:
 XGBoostBest:
   colsample_bytree: 1.0
   learning_rate: 0.2
-  max_depth: 8
-  n_estimators: 300
-  subsample: 0.8
+  max_depth: 6
+  n_estimators: 200
+  subsample: 0.7

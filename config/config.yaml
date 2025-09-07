@@ -2,27 +2,26 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  local_data_file: artifacts/data_ingestion/forest cover type.zip
+  local_data_file: artifacts/data_ingestion/Company Bankruptcy Prediction.zip
   unzip_dir: artifacts/data_ingestion
 
 data_validation:
   root_dir: artifacts/data_validation
-  unzip_data_dir: artifacts/data_ingestion/covtype.csv
+  unzip_data_dir: artifacts/data_ingestion/data.csv
   STATUS_FILE: artifacts/data_validation/status.txt
 
 data_transformation:
   root_dir: artifacts/data_transformation
-  data_path: artifacts/data_ingestion/covtype.csv
+  data_path: artifacts/data_ingestion/data.csv
 
 model_train:
   root_dir: artifacts/model_train
   train_data_path: artifacts/data_transformation/dataset_train.csv
   validation_data_path: artifacts/data_transformation/dataset_validation.csv
   test_data_path: artifacts/data_transformation/dataset_test.csv
-  model_name: model.joblib
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
   test_data_path: artifacts/data_transformation/dataset_test.csv
-  model_path: artifacts/model_trainer/model.joblib
+  model_path: artifacts/model_train
   metric_file_name: artifacts/model_evaluation/metrics.json

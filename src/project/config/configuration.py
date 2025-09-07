@@ -1,7 +1,30 @@
 from src.project.constants import *
 from src.project.utils.common import read_yaml, create_directories
 from src.project import logger
-from src.project.entity.config_entity import (DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainConfig)
+from src.project.entity.config_entity import (DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainConfig, ModelEvaluationConfig)
+import os
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+
+mlflow_tracking_uri = os.getenv('MLFLOW_TRACKING_URI')
+dagshub_username = os.getenv('DAGSHUB_USERNAME')
+dagshub_token = os.getenv('DVC_SECRET_ACCESS_KEY')
+
+if mlflow_tracking_uri is None:
+    raise ValueError("mlflow_tracking_uri is not set in your environment!")
+
+if dagshub_token is None:
+    raise ValueError("DAGSHUB_TOKEN is not set in your environment!")
+
+if dagshub_username is None:
+    raise ValueError("DAGSHUB USERNAME is not set in your environment!")
+
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+os.environ['MLFLOW_TRACKING_URI'] = mlflow_tracking_uri
+
+os.environ['MLFLOW_TRACKING_USERNAME'] = dagshub_username
 
 class ConfigurationManager:
     def __init__(self, 
@@ -57,12 +80,14 @@ class ConfigurationManager:
         
         config=self.config.model_train
         target = self.schema.TARGET_COLUMN
-        
+        model_name = ''
         # pick correct params
         if model_type == "RandomForest":
             params = self.params.RandomForest
+            model_name = 'RandomForest'
         elif model_type == "XGBoost":
             params = self.params.XGBoost
+            model_name = 'RandomForest'
         else:
             raise ValueError(f"Unknown model_type: {config.model_type}")
             
@@ -81,9 +106,30 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             validation_data_path=config.validation_data_path,
             test_data_path = config.test_data_path,
-            model_name = config.model_name,
+            model_name = model_name,
             target_column=target.name,
             model_type=model_type,
             **param_kwargs
         )
         return model_train_config
+    
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config=self.config.model_evaluation
+        all_params = []
+        all_params.append({'RandomForestBest': self.params['RandomForestBest']})
+        all_params.append({'XGBoostBest': self.params['XGBoostBest']})
+        print(all_params)
+        schema=self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])
+
+        model_evaluation_config=ModelEvaluationConfig(
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path = config.model_path,
+            metric_file_name = config.metric_file_name,
+            target_column = schema.name,
+            all_params = all_params,
+            mlflow_tracking_uri=os.environ['MLFLOW_TRACKING_URI'] # type: ignore
+        )
+        return model_evaluation_config

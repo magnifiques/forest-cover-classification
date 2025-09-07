@@ -43,3 +43,13 @@ class ModelTrainConfig:
     learning_rate: Optional[List[float]] = None
     subsample: Optional[List[float]] = None
     colsample_bytree: Optional[List[float]] = None
+    
+@dataclass
+class ModelEvaluationConfig:
+    root_dir: Path
+    test_data_path: Path
+    model_path: Path
+    metric_file_name: Path
+    target_column: str
+    mlflow_tracking_uri: str
+    all_params: list
