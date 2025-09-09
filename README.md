@@ -201,41 +201,50 @@ The model is deployed as a web application using GitHub Pages with a simple inte
 ```
 forest-cover-classification/
 ├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── external/
+│   ├── raw/                            # Raw dataset storage
+│   ├── processed/                      # Processed/transformed data
+│   └── external/                       # External data sources
+│
 ├── src/
 │   ├── components/
-│   │   ├── data_ingestion.py
-│   │   ├── data_validation.py
-│   │   ├── data_transformation.py
-│   │   ├── model_training.py
-│   │   └── model_evaluation.py
+│   │   ├── data_ingestion.py          # Data loading and splitting
+│   │   ├── data_validation.py         # Schema and quality validation  
+│   │   ├── data_transformation.py     # Feature preprocessing
+│   │   ├── model_training.py          # RandomForest & XGBoost training
+│   │   └── model_evaluation.py        # Model evaluation metrics
+│   │
 │   ├── pipeline/
-│   │   ├── training_pipeline.py
-│   │   └── prediction_pipeline.py
+│   │   ├── training_pipeline.py       # Complete training workflow
+│   │   └── prediction_pipeline.py     # Inference pipeline
+│   │
 │   ├── utils/
-│   │   ├── common.py
-│   │   └── logger.py
+│   │   ├── common.py                  # Common utility functions
+│   │   └── logger.py                  # Logging configuration
+│   │
 │   └── config/
-│       └── configuration.py
+│       └── configuration.py           # Configuration management
+│
 ├── artifacts/
-│   ├── models/
-│   ├── data_validation/
-│   └── model_evaluation/
-├── mlruns/
+│   ├── models/                        # Trained model storage
+│   ├── data_validation/               # Validation reports
+│   └── model_evaluation/              # Evaluation metrics
+│
+├── mlruns/                            # MLflow experiment tracking
+│
 ├── notebooks/
-│   ├── EDA.ipynb
-│   ├── model_experiments.ipynb
-│   └── data_analysis.ipynb
-├── static/
-├── templates/
-├── tests/
-├── requirements.txt
-├── main.py
-├── app.py
-├── Dockerfile
-└── README.md
+│   ├── EDA.ipynb                      # Exploratory Data Analysis
+│   ├── model_experiments.ipynb        # Model experimentation
+│   └── data_analysis.ipynb            # Data analysis notebooks
+│
+├── static/                            # Web app static files (CSS, JS)
+├── templates/                         # HTML templates for web app
+├── tests/                             # Unit and integration tests
+│
+├── requirements.txt                   # Python dependencies
+├── main.py                           # Main pipeline execution
+├── app.py                            # Flask web application
+├── Dockerfile                        # Container configuration
+└── README.md                         # Project documentation
 ```
 
 ## 📄 License
