@@ -1,20 +1,245 @@
-# End to End Data Science Projects
+# Forest Cover Type Classification
 
-### ML Pipeline
+An end-to-end machine learning project for predicting forest cover types using cartographic variables. This project implements a comprehensive MLOps pipeline, encompassing data ingestion, validation, transformation, model training, evaluation, experiment tracking, and deployment.
 
-1. Data Ingestion
-2. Data Validation
-3. Data Transformation
-4. Model Trainer
-5. Model Evaluation
+## 📋 Table of Contents
 
-## Workflows
+- [Project Overview](#project-overview)
+- [Dataset](#dataset)
+- [Project Architecture](#project-architecture)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Pipeline Components](#pipeline-components)
+- [Model Performance](#model-performance)
+- [Experiment Tracking](#experiment-tracking)
+- [Deployment](#deployment)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-1. Update config.yaml
-2. Update schema.yaml
-3. Update params.yaml
-4. Update the entity
-5. Update the configuration manager in src config
-6. Update the components
-7. Update the pipeline
-8. Update the main.py
+## 🌲 Project Overview
+
+This project predicts forest cover types based on cartographic variables derived from US Forest Service (USFS) Region 2 Resource Information System data. The goal is to classify forest cover into one of seven categories using various environmental and geographic features.
+
+The project follows MLOps best practices with:
+- Modular pipeline architecture
+- Comprehensive experiment tracking
+- Automated hyperparameter tuning
+- Model versioning and deployment
+- Continuous integration and deployment
+
+## 📊 Dataset
+
+The Forest Cover Type dataset contains cartographic variables for 30x30 meter cells obtained from US Forest Service Region 2 Resource Information System data.
+
+**Features:**
+- **Quantitative Variables:** Elevation, Aspect, Slope, distances to water features, roads, and fire points
+- **Qualitative Variables:** Wilderness areas (4 binary columns) and soil types (40 binary columns)
+- **Target:** 7 forest cover types
+
+**Dataset Statistics:**
+- Total samples: 581,012
+- Features: 54
+- Classes: 7 (Cover_Type 1-7)
+- No missing values
+
+## 🏗️ Project Architecture
+
+```
+Data Ingestion → Data Validation → Data Transformation → Model Training → Model Evaluation → Deployment
+      ↓                ↓                  ↓                    ↓                ↓              ↓
+   Raw Data      Schema Check      Feature Engineering    RandomForest      Metrics     GitHub Pages
+                Data Quality         Preprocessing         XGBoost        Evaluation      DagsHub
+                   Check           Train/Test Split    Hyperparameter   MLflow Logging
+                                                         Tuning
+```
+
+## 🚀 Installation
+
+### Prerequisites
+- Python 3.8+
+- Git
+
+### Setup
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/magnifiques/forest-cover-classification.git
+cd forest-cover-classification
+```
+
+2. **Create virtual environment:**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+
+## 🔧 Pipeline Components
+
+### 1. Data Ingestion
+- Downloads dataset from source
+- Performs initial data quality checks
+- Splits data into train and test sets
+- Saves raw data artifacts
+
+### 2. Data Validation
+- Schema validation against predefined structure
+- Data drift detection
+- Missing value analysis
+- Outlier detection and reporting
+
+### 3. Data Transformation
+- Feature scaling and normalization
+- Categorical encoding
+- Feature selection
+- Data preprocessing pipeline creation
+
+### 4. Model Training
+- **Random Forest Classifier**
+  - Ensemble method with bootstrap aggregation
+  - Hyperparameter tuning via RandomSearchCV
+  
+- **XGBoost Classifier**
+  - Gradient boosting framework
+  - Advanced regularization techniques
+  - Hyperparameter optimization
+
+### 5. Model Evaluation
+- Cross-validation metrics
+- Confusion matrix analysis
+- Feature importance ranking
+- Model comparison and selection
+
+## 📈 Model Performance
+
+### Best Model Results
+
+| Model | Accuracy |
+|-------|----------|
+| XGBoost | 0.96 | 
+| Random Forest | 0.963 | 
+
+### Hyperparameter Tuning Results
+
+**XGBoost Optimal Parameters:**
+- `n_estimators`: 200
+- `max_depth`: 6
+- `learning_rate`: 0.2
+- `subsample`: 0.7
+- `colsample_bytree`: 1.0
+
+**Random Forest Optimal Parameters:**
+- `n_estimators`: 300
+- `max_depth`: 30
+- `min_samples_split`: 5
+- `min_samples_leaf`: 2
+
+## 🔬 Experiment Tracking
+
+This project uses **MLflow** for comprehensive experiment tracking:
+
+### Tracked Metrics
+- Accuracy, Precision, Recall, F1-Score
+- Training and validation loss
+- Cross-validation scores
+- Hyperparameter combinations
+
+### Tracked Artifacts
+- Trained models (pickle format)
+- Feature importance plots
+- Confusion matrices
+- Data preprocessing pipelines
+
+### Accessing Experiments
+- **Local MLflow UI**: `http://localhost:5000`
+- **DagsHub Integration**: 
+
+## 🚀 Deployment
+
+### GitHub Pages
+The model is deployed as a web application using GitHub Pages with a simple interface for predictions.
+
+**Live Demo**: [Your GitHub Pages URL]
+
+### DagsHub Integration
+- Model versioning and registry
+- Experiment comparison and visualization
+- Collaborative ML workflows
+
+**DagsHub Repository**: [[Your DagsHub URL]](https://dagshub.com/magnifiques/end-to-end-data-science-project)
+
+## 🛠️ Technologies Used
+
+**Machine Learning:**
+- scikit-learn
+- XGBoost
+- pandas
+- numpy
+
+**Experiment Tracking:**
+- MLflow
+- DagsHub
+
+**Deployment:**
+- GitHub Actions
+- GitHub Pages
+- Docker (optional)
+
+**Development:**
+- Python 3.8+
+- Jupyter Notebooks
+- Git
+
+## 📁 Project Structure
+
+```
+forest-cover-classification/
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── external/
+├── src/
+│   ├── components/
+│   │   ├── data_ingestion.py
+│   │   ├── data_validation.py
+│   │   ├── data_transformation.py
+│   │   ├── model_training.py
+│   │   └── model_evaluation.py
+│   ├── pipeline/
+│   │   ├── training_pipeline.py
+│   │   └── prediction_pipeline.py
+│   ├── utils/
+│   │   ├── common.py
+│   │   └── logger.py
+│   └── config/
+│       └── configuration.py
+├── artifacts/
+│   ├── models/
+│   ├── data_validation/
+│   └── model_evaluation/
+├── mlruns/
+├── notebooks/
+│   ├── EDA.ipynb
+│   ├── model_experiments.ipynb
+│   └── data_analysis.ipynb
+├── static/
+├── templates/
+├── tests/
+├── requirements.txt
+├── main.py
+├── app.py
+├── Dockerfile
+└── README.md
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+⭐ **Star this repository if you found it helpful!**
